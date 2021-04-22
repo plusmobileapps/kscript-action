@@ -16,9 +16,10 @@ This action will run the unit tests in a [Kscript](https://github.com/holgerbran
 
 The kscript-action depends on the [actions/checkout](https://github.com/actions/checkout) as this will checkout out your project into a repository the script is looking for to run the tests from. 
 
+There is also an example [kscript project](https://github.com/plusmobileapps/kotlin-scripting/blob/main/.github/workflows/main.yml) that showcases this action for any pull requests made against the `main` branch.
+
 ```yml
 on: 
-  push:
   pull_request:
       branches:
         - main
