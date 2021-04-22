@@ -1,32 +1,32 @@
-FROM ubuntu:focal
+FROM ubuntu
 
-COPY entrypoint.sh /entrypoint.sh
+RUN set -x \
+    && apt-get update \
+    && apt-get install -y curl unzip zip ca-certificates --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY ktest.kts /ktest.kts
+ENV SDKMAN_DIR /usr/local/sdkman
 
-SHELL ["/bin/bash", "-c"]
+SHELL [ "/bin/bash", "-c" ]
 
-RUN apt-get update && \
-	apt-get -y install curl zip unzip && \
-    rm -rf /var/lib/apt/lists/*
+RUN curl 'https://get.sdkman.io' | bash
 
-# Install SDKMAN!
-RUN curl -s "https://get.sdkman.io" | bash
+RUN set -x \
+    && echo "sdkman_auto_answer=true" > $SDKMAN_DIR/etc/config \
+    && echo "sdkman_auto_selfupdate=false" >> $SDKMAN_DIR/etc/config \
+    && echo "sdkman_insecure_ssl=false" >> $SDKMAN_DIR/etc/config
 
-RUN source /root/.sdkman/bin/sdkman-init.sh && \
-    sdk install java 11.0.9-zulu && \
-    sdk install kotlin 1.4.10
-#    sdk install maven 3.6.0 && \
+RUN source $SDKMAN_DIR/bin/sdkman-init.sh \
+	&& sdk install java \
+	&& sdk install kotlin \
+	&& sdk install maven \
+	&& sdk install kscript \
+	&& sdk install gradle
 
-ARG KSCRIPT_VERSION
-ENV KSCRIPT_VERSION=$KSCRIPT_VERSION
+COPY ktest.kts /
 
-## run separately to better use docker build cache
-RUN source /root/.sdkman/bin/sdkman-init.sh && \
-    sdk install kscript $KSCRIPT_VERSION
+# ENV PATH "$PATH:/usr/local/sdkman/candidates/kscript/current/bin/kscript"
 
-ENV KSCRIPT_ROOT /usr/bin/env
-ENV PATH "$PATH:${KSCRIPT_ROOT}"
+# COPY entrypoint.sh /
 
-# Code file to execute when the docker container starts up (`entrypoint.sh`)
-ENTRYPOINT ["/entrypoint.sh"]
+# ENTRYPOINT ["/entrypoint.sh"]
