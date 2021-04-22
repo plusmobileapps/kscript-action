@@ -33,4 +33,3 @@ ENV PATH="${PATH}:/usr/local/sdkman/candidates/kscript/current/bin"
 ENV PATH="${PATH}:/usr/local/sdkman/candidates/gradle/current/bin"
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["--help"]
