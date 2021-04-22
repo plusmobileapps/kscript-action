@@ -2,7 +2,7 @@ name: 'Kscript CI for Unit Tests'
 description: 'Run the unit tests in a kscript project'
 inputs:
   kts-file:  # id of input
-    description: 'the path to the kts file in your repository i.e. hello-world.kts'
+    description: 'the path to the kts file in your repository i.e. hello-world.kts if at the root of the project'
     required: true
 runs:
   using: 'docker'

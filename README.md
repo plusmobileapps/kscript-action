@@ -1,24 +1,38 @@
 # kscript-action
-A GitHub Action for running tests in a Kscript
 
-# Hello world docker action
+A GitHub Action for running unit tests in a [Kscript](https://github.com/holgerbrandl/kscript) project 
 
-This action prints "Hello World" or "Hello" + the name of a person to greet to the log.
+# Kscript Unit Test Docker Action
+
+This action will run the unit tests in a [Kscript](https://github.com/holgerbrandl/kscript) project using another helper kscript file for running tests from the command line without IntelliJ. 
 
 ## Inputs
 
-### `who-to-greet`
+### `kts-file`
 
-**Required** The name of the person to greet. Default `"World"`.
-
-## Outputs
-
-### `time`
-
-The time we greeted you.
+**Required** The path to the `*.kts` file under test in your Github Project. 
 
 ## Example usage
 
-uses: actions/hello-world-docker-action@v1
-with:
-  who-to-greet: 'Mona the Octocat'
+The kscript-action depends on the [actions/checkout](https://github.com/actions/checkout) as this will checkout out your project into a repository the script is looking for to run the tests from. 
+
+```yml
+on: 
+  push:
+  pull_request:
+      branches:
+        - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Run tests in kscript project
+    steps:
+    - name: Checkout the project into the container
+      uses: actions/checkout@v2.3.4
+    - name: Run testing script to generate mock IDEA project and run gradle test
+      id: hello
+      uses: plusmobileapps/kscript-action@v1
+      with:
+        kts-file: 'star-wars-char-enum.kts'
+```
