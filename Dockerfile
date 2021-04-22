@@ -23,10 +23,14 @@ RUN source $SDKMAN_DIR/bin/sdkman-init.sh \
 	&& sdk install kscript \
 	&& sdk install gradle
 
-COPY ktest.kts /
 
-# ENV PATH "$PATH:/usr/local/sdkman/candidates/kscript/current/bin/kscript"
+COPY entrypoint.sh /
+COPY ktest.kts / 
 
-# COPY entrypoint.sh /
+ENV PATH="${PATH}:/usr/local/sdkman/candidates/java/current/bin"
+ENV PATH="${PATH}:/usr/local/sdkman/candidates/kotlin/current/bin"
+ENV PATH="${PATH}:/usr/local/sdkman/candidates/kscript/current/bin"
+ENV PATH="${PATH}:/usr/local/sdkman/candidates/gradle/current/bin"
 
-# ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["--help"]
