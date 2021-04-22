@@ -1,15 +1,11 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Kscript CI for Unit Tests'
+description: 'Run the unit tests in a kscript project'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  kts-file:  # id of input
+    description: 'the path to the kts file in your repository i.e. hello-world.kts'
     required: true
-    default: 'World'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.who-to-greet }}
+    - ${{ inputs.kts-file }}
