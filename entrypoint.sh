@@ -1,9 +1,12 @@
-#!/bin/sh -l
+#!/bin/bash
+
+# add sdk to the bash environment
+source "$SDKMAN_DIR/bin/sdkman-init.sh"
 
 # install kscript with the provided version 
 sdk install kscript $2
 
-# add kscript ot the path 
+# add kscript to the path 
 export PATH=$PATH:/usr/local/sdkman/candidates/kscript/current/bin
 
 # run the tests with the helper script
