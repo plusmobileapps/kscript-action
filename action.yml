@@ -4,8 +4,13 @@ inputs:
   kts-file:  # id of input
     description: 'the path to the kts file in your repository i.e. hello-world.kts if at the root of the project'
     required: true
+  kscript-version: 
+    description: the version of kscript to be used in the action 
+    required: true 
+    default: '3.0.2'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.kts-file }}
+    - ${{ inputs.kscript-version }}

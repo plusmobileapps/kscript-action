@@ -1,10 +1,11 @@
 #!/bin/sh -l
 
-kscript /ktest.kts /github/workspace/$1
+# install kscript with the provided version 
+sdk install kscript $2
 
-# if [[ $? -eq 0 ]]; then
-#     echo "Tests passed. Do something."
-# else
-#     echo "Tests didn't pass. Do something."
-#     exit 1
-# fi
+# add kscript ot the path 
+export PATH=$PATH:/usr/local/sdkman/candidates/kscript/current/bin
+
+# run the tests with the helper script
+# the project should be checked out at /github/workspace/ with the checkout action https://github.com/actions/checkout
+kscript /ktest.kts /github/workspace/$1

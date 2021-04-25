@@ -20,7 +20,6 @@ RUN source $SDKMAN_DIR/bin/sdkman-init.sh \
 	&& sdk install java \
 	&& sdk install kotlin \
 	&& sdk install maven \
-	&& sdk install kscript \
 	&& sdk install gradle
 
 
@@ -29,7 +28,6 @@ COPY ktest.kts /
 
 ENV PATH="${PATH}:/usr/local/sdkman/candidates/java/current/bin"
 ENV PATH="${PATH}:/usr/local/sdkman/candidates/kotlin/current/bin"
-ENV PATH="${PATH}:/usr/local/sdkman/candidates/kscript/current/bin"
 ENV PATH="${PATH}:/usr/local/sdkman/candidates/gradle/current/bin"
 
 ENTRYPOINT ["/entrypoint.sh"]
