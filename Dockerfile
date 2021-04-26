@@ -7,6 +7,18 @@ RUN set -x \
 
 ENV SDKMAN_DIR /usr/local/sdkman
 
+ARG KSCRIPT_VERSION=3.0.2
+ARG JAVA_VERSION=11.0.9-zulu
+ARG KOTLIN_VERSION=1.4.31
+ARG MAVEN_VERSION=3.8.1
+ARG GRADLE_VERSION=7.0
+
+ENV KSCRIPT_VERSION=$KSCRIPT_VERSION
+ENV JAVA_VERSION=$JAVA_VERSION
+ENV KOTLIN_VERSION=$KOTLIN_VERSION
+ENV MAVEN_VERSION=$MAVEN_VERSION
+ENV GRADLE_VERSION=$GRADLE_VERSION
+
 SHELL [ "/bin/bash", "-c" ]
 
 RUN curl 'https://get.sdkman.io' | bash
@@ -17,11 +29,11 @@ RUN set -x \
     && echo "sdkman_insecure_ssl=false" >> $SDKMAN_DIR/etc/config
 
 RUN source $SDKMAN_DIR/bin/sdkman-init.sh \
-	&& sdk install java \
-	&& sdk install kotlin \
-	&& sdk install maven \
-	&& sdk install kscript \
-	&& sdk install gradle
+	&& sdk install java $JAVA_VERSION \
+	&& sdk install kotlin $KOTLIN_VERSION \
+	&& sdk install maven $MAVEN_VERSION \
+	&& sdk install kscript $KSCRIPT_VERSION \
+	&& sdk install gradle $GRADLE_VERSION
 
 
 COPY entrypoint.sh /
