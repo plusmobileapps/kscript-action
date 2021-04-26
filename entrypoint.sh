@@ -1,10 +1,11 @@
 #!/bin/sh -l
 
-kscript /ktest.kts /github/workspace/$1
+KTS_FILE=$1
+KSCRIPT_VERSION=$2
 
-# if [[ $? -eq 0 ]]; then
-#     echo "Tests passed. Do something."
-# else
-#     echo "Tests didn't pass. Do something."
-#     exit 1
-# fi
+cd /docker-action
+echo "creating docker image with kscript version: $KSCRIPT_VERSION"
+
+# here we can make the construction of the image as customizable as we need
+# and if we need parameterizable values it is a matter of sending them as inputs
+docker build -t kscript-action --build-arg KSCRIPT_VERSION="$KSCRIPT_VERSION" . && docker run kscript-action $KTS_FILE
