@@ -4,9 +4,6 @@ FROM ubuntu
 COPY docker-action /docker-action
 COPY entrypoint.sh /entrypoint.sh
 
-# Copies github checkout action workspace to new docker container
-COPY github/workspace /github/workspace
-
 RUN apk add --update --no-cache docker
 RUN ["chmod", "+x", "/entrypoint.sh"]
 
