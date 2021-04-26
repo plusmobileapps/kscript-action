@@ -35,7 +35,6 @@ RUN source $SDKMAN_DIR/bin/sdkman-init.sh \
 	&& sdk install kscript $KSCRIPT_VERSION \
 	&& sdk install gradle $GRADLE_VERSION
 
-COPY github/workspace /github/workspace
 COPY entrypoint.sh /
 COPY ktest.kts / 
 
