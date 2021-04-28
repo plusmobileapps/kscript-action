@@ -11,8 +11,8 @@ source "$SDKMAN_DIR/bin/sdkman-init.sh"
 # install kscript & dependencies with the provided versions
 sdk install java $JAVA_VERSION
 sdk install kotlin $KOTLIN_VERSION
-sdk install kscript $KTS_FILE
+sdk install kscript $KSCRIPT_VERSION
 
 # run the tests with the helper script
 # the project should be checked out at /github/workspace/ with the checkout action https://github.com/actions/checkout
-kscript /ktest.kts /github/workspace/$1
+kscript /ktest.kts /github/workspace/$KTS_FILE
