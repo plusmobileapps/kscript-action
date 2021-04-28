@@ -4,8 +4,23 @@ inputs:
   kts-file:  # id of input
     description: 'the path to the kts file in your repository i.e. hello-world.kts if at the root of the project'
     required: true
+  kscript-version: 
+    description: version of kscript to be used in the action https://sdkman.io/sdks#kscript
+    required: true 
+    default: '3.1.0'
+  java-version: 
+    description: version of java to be used in the action https://sdkman.io/jdks
+    required: true
+    default: '11.0.10.hs-adpt'
+  kotlin-version: 
+    description: version of kotlin to be used in the action https://sdkman.io/sdks#kotlin
+    required: true
+    default: '1.4.31'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.kts-file }}
+    - ${{ inputs.kscript-version }}
+    - ${{ inputs.java-version }}
+    - ${{ inputs.kotlin-version }}

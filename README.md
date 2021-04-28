@@ -12,6 +12,24 @@ This action will run the unit tests in a [Kscript](https://github.com/holgerbran
 
 **Required** The path to the `*.kts` file under test in your Github Project. 
 
+### `kscript-version`
+
+The [kscript version](https://sdkman.io/sdks#kscript) to be used in the action. 
+
+Default value: `'3.1.0'`
+
+### `java-version`
+
+The [JDK](https://sdkman.io/jdks) to be used in the action
+
+Default value: `'11.0.10.hs-adpt'`
+
+### `kotlin-version`
+
+The [Kotlin](https://sdkman.io/) version to be used in the action
+
+Default value: `'1.4.31'`
+
 ## Example usage
 
 The kscript-action depends on the [actions/checkout](https://github.com/actions/checkout) as this will checkout out your project into a repository the script is looking for to run the tests from. 
@@ -33,7 +51,8 @@ jobs:
       uses: actions/checkout@v2.3.4
     - name: Run testing script to generate mock IDEA project and run gradle test
       id: hello
-      uses: plusmobileapps/kscript-action@v1
+      uses: plusmobileapps/kscript-action@v1.1
       with:
         kts-file: 'star-wars-char-enum.kts'
+        kscript-version: '3.0.2'
 ```

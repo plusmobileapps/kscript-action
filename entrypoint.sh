@@ -1,10 +1,18 @@
-#!/bin/sh -l
+#!/bin/bash
 
-kscript /ktest.kts /github/workspace/$1
+KTS_FILE=$1
+KSCRIPT_VERSION=$2
+JAVA_VERSION=$3
+KOTLIN_VERSION=$4
 
-# if [[ $? -eq 0 ]]; then
-#     echo "Tests passed. Do something."
-# else
-#     echo "Tests didn't pass. Do something."
-#     exit 1
-# fi
+# add sdk to the bash environment
+source "$SDKMAN_DIR/bin/sdkman-init.sh"
+
+# install kscript & dependencies with the provided versions
+sdk install java $JAVA_VERSION
+sdk install kotlin $KOTLIN_VERSION
+sdk install kscript $KSCRIPT_VERSION
+
+# run the tests with the helper script
+# the project should be checked out at /github/workspace/ with the checkout action https://github.com/actions/checkout
+kscript /ktest.kts /github/workspace/$KTS_FILE
