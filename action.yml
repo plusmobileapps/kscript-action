@@ -20,6 +20,10 @@ inputs:
     description: version of kotlin to be used in the action https://sdkman.io/sdks#kotlin
     required: true
     default: '1.4.31'
+  fail-on-failure: 
+    description: if you are using a unit test reporter and want the results to still be generated and continue with the action
+    required: true
+    default: 'true'
 runs:
   using: 'docker'
   image: 'Dockerfile'

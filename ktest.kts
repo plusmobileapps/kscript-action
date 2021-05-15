@@ -9,6 +9,7 @@ import kotlin.system.exitProcess
  */
 
 val scriptPath = args.firstOrNull() ?: error("First argument must be a path to a script")
+val failOnFailFailure: Boolean = args.getOrNull(1)?.let { it.toBoolean() } ?: true
 
 // Checks for a global path or a relative path
 val scriptFile = listOf(File(scriptPath), File("", scriptPath))
@@ -53,7 +54,7 @@ println("\nTesting ${scriptFile.canonicalPath}...\n")
         stdoutRedirectBehavior = ProcessBuilder.Redirect.INHERIT,
         stderrRedirectBehavior = ProcessBuilder.Redirect.INHERIT
     ).let { result ->
-        exitProcess(result.exitCode)
+        exitProcess(if (failOnFailFailure) result.exitCode else ProcessResult.SUCCESS_EXIT_CODE)
     }
 
 fun assertInPath(executableName: String) {
@@ -104,6 +105,9 @@ fun String.execute(
 }
 
 data class ProcessResult(val exitCode: Int, val stdOut: BufferedReader, val stdErr: BufferedReader) {
-    val succeeded: Boolean = exitCode == 0
+    companion object {
+        const val SUCCESS_EXIT_CODE = 0
+    }
+    val succeeded: Boolean = exitCode == SUCCESS_EXIT_CODE
     val failed: Boolean = !succeeded
 }
