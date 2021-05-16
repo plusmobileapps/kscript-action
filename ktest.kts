@@ -54,7 +54,10 @@ println("\nTesting ${scriptFile.canonicalPath}...\n")
         stdoutRedirectBehavior = ProcessBuilder.Redirect.INHERIT,
         stderrRedirectBehavior = ProcessBuilder.Redirect.INHERIT
     ).let { result ->
-        exitProcess(if (failOnFailFailure) result.exitCode else ProcessResult.SUCCESS_EXIT_CODE)
+        println("failOnFailure: $failOnFailFailure")
+        if (failOnFailFailure) {
+            exitProcess(result.exitCode)
+        }
     }
 
 fun assertInPath(executableName: String) {
