@@ -54,7 +54,6 @@ println("\nTesting ${scriptFile.canonicalPath}...\n")
         stdoutRedirectBehavior = ProcessBuilder.Redirect.INHERIT,
         stderrRedirectBehavior = ProcessBuilder.Redirect.INHERIT
     ).let { result ->
-        println("failOnFailure: $failOnFailFailure")
         if (failOnFailFailure) {
             exitProcess(result.exitCode)
         }
@@ -81,7 +80,7 @@ fun checkOrExit(condition: Boolean, msg: () -> String) {
 
 fun String.execute(
     workingDir: File = File("."),
-    timeoutAmount: Long = 60,
+    timeoutAmount: Long = 120,
     timeoutUnit: TimeUnit = TimeUnit.SECONDS,
     stdoutRedirectBehavior: ProcessBuilder.Redirect = ProcessBuilder.Redirect.PIPE,
     stderrRedirectBehavior: ProcessBuilder.Redirect = ProcessBuilder.Redirect.PIPE
