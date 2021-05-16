@@ -32,3 +32,4 @@ runs:
     - ${{ inputs.kscript-version }}
     - ${{ inputs.java-version }}
     - ${{ inputs.kotlin-version }}
+    - ${{ inputs.fail-on-failure }}
