@@ -62,19 +62,10 @@ println("\nTesting ${scriptFile.canonicalPath}...\n")
 
 fun copyTestResultBackToProject() {
     """
-        pwd
         mkdir build
-        echo "build contents prior ${projectLocation}/build"
-        ls -l $projectLocation/build/
         mv $projectLocation/build/* build/
-        echo "build contents of build/"
-        ls -l build/
     """.trimIndent()
-        .execute(
-            // Inherit is used so that gradle test output is shown in console to the user
-            stdoutRedirectBehavior = ProcessBuilder.Redirect.INHERIT,
-            stderrRedirectBehavior = ProcessBuilder.Redirect.INHERIT
-        )
+        .execute()
 }
 
 fun assertInPath(executableName: String) {

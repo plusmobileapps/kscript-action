@@ -5,9 +5,6 @@ KSCRIPT_VERSION=$2
 JAVA_VERSION=$3
 KOTLIN_VERSION=$4
 FAIL_ON_FAILURE=$5
-CURRENT_DIRECTORY=`pwd`
-
-echo "Current director: $CURRENT_DIRECTORY"
 
 # add sdk to the bash environment
 source "$SDKMAN_DIR/bin/sdkman-init.sh"

@@ -30,6 +30,12 @@ The [Kotlin](https://sdkman.io/) version to be used in the action
 
 Default value: `'1.4.31'`
 
+### `fail-on-failure`
+
+Set to `'false'` to not fail the process if a unit test were to fail and a unit test parser is to be used such as the [JUnit report Github action](https://github.com/marketplace/actions/junit-report-action). 
+
+Default value: 'true'
+
 ## Example usage
 
 The kscript-action depends on the [actions/checkout](https://github.com/actions/checkout) as this will checkout out your project into a repository the script is looking for to run the tests from. 
