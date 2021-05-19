@@ -10,6 +10,7 @@ import kotlin.system.exitProcess
 
 val scriptPath = args.firstOrNull() ?: error("First argument must be a path to a script")
 val failOnFailFailure: Boolean = args.getOrNull(1)?.let { it.toBoolean() } ?: true
+val originalProjectPath = args.getOrNull(2) ?: error("Third argument should be the project path to copy test results back to")
 
 // Checks for a global path or a relative path
 val scriptFile = listOf(File(scriptPath), File("", scriptPath))
@@ -56,8 +57,17 @@ println("\nTesting ${scriptFile.canonicalPath}...\n")
     ).let { result ->
         if (failOnFailFailure) {
             exitProcess(result.exitCode)
+        } else {
+            copyTestResultBackToProject()
         }
     }
+
+fun copyTestResultBackToProject() {
+    """
+        mkdir $originalProjectPath/build
+        mv $projectLocation/build/* $originalProjectPath/build
+    """.trimIndent()
+}
 
 fun assertInPath(executableName: String) {
     "which $executableName"
