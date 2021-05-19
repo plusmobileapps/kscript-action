@@ -65,8 +65,13 @@ println("\nTesting ${scriptFile.canonicalPath}...\n")
 fun copyTestResultBackToProject() {
     """
         mkdir $originalProjectPath/build
+        echo "build contents prior $projectLocation/build"
+        ls -l $projectLocation/build/*
         mv $projectLocation/build/* $originalProjectPath/build
+        echo "build contents of $originalProjectPath/build"
+        ls -l $originalProjectPath/build
     """.trimIndent()
+        .execute()
 }
 
 fun assertInPath(executableName: String) {
