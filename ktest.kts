@@ -9,6 +9,7 @@ import kotlin.system.exitProcess
  */
 
 val scriptPath = args.firstOrNull() ?: error("First argument must be a path to a script")
+val failOnFailFailure: Boolean = args.getOrNull(1)?.let { it.toBoolean() } ?: true
 
 // Checks for a global path or a relative path
 val scriptFile = listOf(File(scriptPath), File("", scriptPath))
@@ -45,16 +46,27 @@ assertInPath("gradle")
 
 println("\nTesting ${scriptFile.canonicalPath}...\n")
 """
-    cd $projectLocation
-    gradle clean test
+    gradle -p $projectLocation clean test
 """.trimIndent()
     .execute(
         // Inherit is used so that gradle test output is shown in console to the user
         stdoutRedirectBehavior = ProcessBuilder.Redirect.INHERIT,
         stderrRedirectBehavior = ProcessBuilder.Redirect.INHERIT
     ).let { result ->
-        exitProcess(result.exitCode)
+        if (failOnFailFailure) {
+            exitProcess(result.exitCode)
+        } else {
+            copyTestResultBackToProject()
+        }
     }
+
+fun copyTestResultBackToProject() {
+    """
+        mkdir build
+        mv $projectLocation/build/* build/
+    """.trimIndent()
+        .execute()
+}
 
 fun assertInPath(executableName: String) {
     "which $executableName"
@@ -77,7 +89,7 @@ fun checkOrExit(condition: Boolean, msg: () -> String) {
 
 fun String.execute(
     workingDir: File = File("."),
-    timeoutAmount: Long = 60,
+    timeoutAmount: Long = 120,
     timeoutUnit: TimeUnit = TimeUnit.SECONDS,
     stdoutRedirectBehavior: ProcessBuilder.Redirect = ProcessBuilder.Redirect.PIPE,
     stderrRedirectBehavior: ProcessBuilder.Redirect = ProcessBuilder.Redirect.PIPE
@@ -104,6 +116,9 @@ fun String.execute(
 }
 
 data class ProcessResult(val exitCode: Int, val stdOut: BufferedReader, val stdErr: BufferedReader) {
-    val succeeded: Boolean = exitCode == 0
+    companion object {
+        const val SUCCESS_EXIT_CODE = 0
+    }
+    val succeeded: Boolean = exitCode == SUCCESS_EXIT_CODE
     val failed: Boolean = !succeeded
 }
