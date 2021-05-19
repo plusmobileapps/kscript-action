@@ -10,7 +10,6 @@ import kotlin.system.exitProcess
 
 val scriptPath = args.firstOrNull() ?: error("First argument must be a path to a script")
 val failOnFailFailure: Boolean = args.getOrNull(1)?.let { it.toBoolean() } ?: true
-val originalProjectPath = args.getOrNull(2) ?: error("Third argument should be the project path to copy test results back to")
 
 // Checks for a global path or a relative path
 val scriptFile = listOf(File(scriptPath), File("", scriptPath))
@@ -47,8 +46,7 @@ assertInPath("gradle")
 
 println("\nTesting ${scriptFile.canonicalPath}...\n")
 """
-    cd $projectLocation
-    gradle clean test
+    gradle -p $projectLocation clean test
 """.trimIndent()
     .execute(
         // Inherit is used so that gradle test output is shown in console to the user
@@ -64,12 +62,13 @@ println("\nTesting ${scriptFile.canonicalPath}...\n")
 
 fun copyTestResultBackToProject() {
     """
-        mkdir $originalProjectPath/build
-        echo "build contents prior $projectLocation/build"
-        ls -l $projectLocation/build/*
-        mv $projectLocation/build/* $originalProjectPath/build
-        echo "build contents of $originalProjectPath/build"
-        ls -l $originalProjectPath/build
+        pwd
+        mkdir build
+        echo "build contents prior ${projectLocation}/build"
+        ls -l $projectLocation/build/
+        mv $projectLocation/build/* build/
+        echo "build contents of build/"
+        ls -l build/
     """.trimIndent()
         .execute(
             // Inherit is used so that gradle test output is shown in console to the user
