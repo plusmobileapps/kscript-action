@@ -71,7 +71,11 @@ fun copyTestResultBackToProject() {
         echo "build contents of $originalProjectPath/build"
         ls -l $originalProjectPath/build
     """.trimIndent()
-        .execute()
+        .execute(
+            // Inherit is used so that gradle test output is shown in console to the user
+            stdoutRedirectBehavior = ProcessBuilder.Redirect.INHERIT,
+            stderrRedirectBehavior = ProcessBuilder.Redirect.INHERIT
+        )
 }
 
 fun assertInPath(executableName: String) {
